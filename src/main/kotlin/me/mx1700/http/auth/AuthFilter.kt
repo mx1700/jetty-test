@@ -2,12 +2,18 @@ package me.mx1700.http.auth
 
 import javax.ws.rs.ext.Provider
 import me.mx1700.http.ApplicationSecurityContext
+import me.mx1700.services.UserService
+import javax.inject.Inject
 import javax.ws.rs.container.*
 
 
 @Provider
 @PreMatching    //TODO:不知道什么作用
 class AuthFilter : ContainerRequestFilter {
+
+    @Inject
+    private lateinit var userService: UserService
+
     override fun filter(requestContext: ContainerRequestContext) {
         //println("AuthFilter!!!")
 //        val auth = requestContext.getHeaderString("authorization")
@@ -20,7 +26,7 @@ class AuthFilter : ContainerRequestFilter {
 //        }
 //        val (email, password) = lap
         //TODO:数据库验证用户
-        val user = User(12, "test001", "mx1700@gmail.com", "123456", arrayOf("user"))
+        val user = userService.getUser(0)
         val scheme = requestContext.uriInfo.requestUri.scheme
         requestContext.securityContext = ApplicationSecurityContext(user, scheme)
     }

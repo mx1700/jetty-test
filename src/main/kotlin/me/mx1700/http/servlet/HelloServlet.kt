@@ -1,4 +1,4 @@
-package me.mx1700.servlet
+package me.mx1700.http.servlet
 
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet

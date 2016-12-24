@@ -1,4 +1,4 @@
-package me.mx1700.resource
+package me.mx1700.http.resource
 
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject

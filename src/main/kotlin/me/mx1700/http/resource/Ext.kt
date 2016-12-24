@@ -1,4 +1,4 @@
-package me.mx1700.resource
+package me.mx1700.http.resource
 
 import me.mx1700.http.auth.User
 import javax.ws.rs.WebApplicationException
