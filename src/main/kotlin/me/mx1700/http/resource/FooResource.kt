@@ -1,5 +1,6 @@
 package me.mx1700.http.resource
 
+import me.mx1700.http.auth.User
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.inject.Named
@@ -15,12 +16,29 @@ class FooResource {
 
     @Inject
     @Named("version")
-    private var version = "123"
+    private lateinit var version: String;
+
+    @Context
+    private lateinit var security: SecurityContext;
+
+//    @GET
+//    @Produces(MediaType.TEXT_PLAIN)
+//    @RolesAllowed("user")
+//    fun getIt(@Context securityContext: SecurityContext): String {
+//        return "Got it890!" + version + "-user:" + securityContext.user?.id
+//    }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("user")
-    fun getIt(@Context securityContext: SecurityContext): String {
-        return "Got it123!" + version + "-user:" + securityContext.user?.id
+    fun getIt(): Any {
+        //return User(1, "zhang", "asd@gmail.com", "123456", arrayOf())
+        return (1..5).map{
+            object {
+                val id = security.user.id
+                val name = "zhang $it"
+                val version = this@FooResource.version
+            }
+        }
     }
 }

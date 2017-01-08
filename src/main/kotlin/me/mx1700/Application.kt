@@ -9,9 +9,14 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature
 class Application : ResourceConfig() {
     init {
         register(ApplicationBinder())
-        //自动扫描的包，包括 Resource 与 其他注解组件
-        //Listener 也需要扫描
-        packages(true, "me.mx1700")
+        /*
+         * 设置需要自动扫描的包
+         * @Service 类不需要扫描，因为 @Service 类是编译进特殊配置文件中
+         */
+        packages(false, "me.mx1700")
+        packages(false, "me.mx1700.http")
+        packages(false, "me.mx1700.http.filter")
+        packages(false, "me.mx1700.http.resource")
 
         //打开角色权限控制
         register(RolesAllowedDynamicFeature::class.java)

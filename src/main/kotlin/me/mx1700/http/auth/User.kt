@@ -1,10 +1,9 @@
 package me.mx1700.http.auth
 
 import java.security.Principal
+import javax.xml.bind.annotation.XmlRootElement
 
-/**
- * Created by lizhaoguang on 16/12/3.
- */
+@XmlRootElement
 class User(
         val id: Int,
         private val _name: String,
@@ -12,6 +11,8 @@ class User(
         val password: String,
         val roles: Array<String>
 ) : Principal {
+
+    constructor(): this(0, "", "", "", arrayOf())
 
     override fun getName(): String {
         return _name

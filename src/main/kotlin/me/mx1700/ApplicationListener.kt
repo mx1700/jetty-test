@@ -1,5 +1,6 @@
 package me.mx1700
 
+import me.mx1700.services.UserService
 import org.glassfish.hk2.api.DynamicConfigurationService
 import org.glassfish.hk2.api.MultiException
 import org.glassfish.hk2.api.ServiceLocator
@@ -19,7 +20,7 @@ class ApplicationListener : ApplicationEventListener {
 
     override fun onEvent(event: ApplicationEvent) {
         when (event.type) {
-            ApplicationEvent.Type.INITIALIZATION_FINISHED -> onInitFinished()
+            ApplicationEvent.Type.INITIALIZATION_START -> onInitFinished()
             else -> {
             }
         }
@@ -33,18 +34,18 @@ class ApplicationListener : ApplicationEventListener {
     }
 
     /**
-     * 自动扫描所有 service
+     * 自动扫描所有 @Service 类，加入容器
      * @param serviceLocator
      */
     private fun populate(serviceLocator: ServiceLocator) {
         val dcs = serviceLocator.getService(DynamicConfigurationService::class.java)
-        val populator = dcs.populator
         try {
-            populator.populate()
+            dcs.populator.populate()
         } catch (e: IOException) {
             throw MultiException(e)
         } catch (e: MultiException) {
             throw MultiException(e)
         }
+        //println(serviceLocator.getAllServices(UserService::class.java))
     }
 }
